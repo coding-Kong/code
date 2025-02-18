@@ -11,6 +11,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.ObjectUtils;
 
 /**
  * 用户表
@@ -93,7 +94,9 @@ public class TUser implements UserDetails, Serializable {
      */
     private Date lastLoginTime;
 
+    //角色标识符列表
     private List<String> roleList;
+    //权限标识符列表
     private List<String> permissionList;
     private static final long serialVersionUID = 1L;
 
@@ -126,13 +129,13 @@ public class TUser implements UserDetails, Serializable {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         List<GrantedAuthority> list = new ArrayList<>();
-        if(this.getRoleList() != null){
+        if(!ObjectUtils.isEmpty(this.getRoleList())){
             this.getRoleList().forEach(role -> {
                 list.add(new SimpleGrantedAuthority(role));
             });
         }
 
-        if(this.getPermissionList() != null){
+        if(!ObjectUtils.isEmpty(this.getPermissionList())){
             this.getPermissionList().forEach(permission -> {
                 list.add(new SimpleGrantedAuthority(permission));
             });

@@ -49,10 +49,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 //jwt是空的，那不合法
                 //执行到这里，那我们向前端返回json就行了
                 R result = R.FAIL(CodeEnum.LOGIN_JWT_IS_EMPTY);
-
                 //把R对象转成json
                 String resultJSON = JSONUtils.toJSON(result);
-
                 //把json写出去，写到浏览器
                 ResponseUtils.write(response, resultJSON);
                 return;
@@ -62,15 +60,12 @@ public class JwtFilter extends OncePerRequestFilter {
             if (!JWTUtils.verifyJWT(jwt)) {
                 //执行到这里，那我们向前端返回json就行了
                 R result = R.FAIL(CodeEnum.LOGIN_JWT_IS_ILLEGAL);
-
                 //把R对象转成json
                 String resultJSON = JSONUtils.toJSON(result);
-
                 //把json写出去，写到浏览器
                 ResponseUtils.write(response, resultJSON);
                 return;
             }
-
             //怎么拿到用户的id？反写解析jwt，从jwt中解析出用户的id
             String userJSON = JWTUtils.parseJWT(jwt);
             TUser tUser = JSONUtils.toBean(userJSON, TUser.class);
@@ -93,10 +88,8 @@ public class JwtFilter extends OncePerRequestFilter {
             if (!jwt.equals(redisJWT)) {
                 //执行到这里，那我们向前端返回json就行了
                 R result = R.FAIL(CodeEnum.LOGIN_JWT_NO_MATCH);
-
                 //把R对象转成json
                 String resultJSON = JSONUtils.toJSON(result);
-
                 //把json写出去，写到浏览器
                 ResponseUtils.write(response, resultJSON);
                 return;

@@ -32,6 +32,8 @@ public class Constants {
     //登录uri地址
     public static final String LOGIN_URI = "/api/login";
 
+    public static final String LOGOUT_URI = "/api/logout";
+
     //导出Excel的uri地址
     public static final String EXPORT_EXCEL_URI = "/api/exportExcel";
 

@@ -43,30 +43,32 @@ public class SecurityConfig {
 
         return http
                 .formLogin((formLogin)->{
-                    formLogin.loginProcessingUrl(Constants.LOGIN_URI)
-                    .usernameParameter("loginAct")
-                    .passwordParameter("loginPwd")
-                    .successHandler(mySucessfulHandler)
-                    .failureHandler(myFailureHandler);
+                    formLogin.loginProcessingUrl(Constants.LOGIN_URI)//登录url
+                    .usernameParameter("loginAct")//账号
+                    .passwordParameter("loginPwd")//密码
+                    .successHandler(mySucessfulHandler)//登陆成功处理器
+                    .failureHandler(myFailureHandler);//登录失败处理器
                 })
+                //请求拦截
                 .authorizeHttpRequests((auth)->{
-
-                    auth.requestMatchers("api/login").permitAll()
+                    auth.requestMatchers(Constants.LOGIN_URI).permitAll()
                             .anyRequest().authenticated();//拦截任何请求
                 })
                 .csrf(csrf->{
-
                     csrf.disable();//禁用跨站请求伪造
                 })
+                //支持跨域请求
                 .cors((cors)->{
                     cors.configurationSource(corsConfigurationSource);
                 })
                 .sessionManagement((session)->{
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
+                //添加自定义的filter
                 .addFilterBefore(JwtFilter, LogoutFilter.class)
+                //退出登录处理器
                 .logout((logout)->{
-                    logout.logoutUrl("/api/logout").logoutSuccessHandler(myLogoutHandler);
+                    logout.logoutUrl(Constants.LOGOUT_URI).logoutSuccessHandler(myLogoutHandler);
                 })
                 .build();
 
@@ -87,9 +89,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedHeader("*");
+        configuration.addAllowedOrigin("*");//允许任何域名使用
+        configuration.addAllowedMethod("*");//允许任何请求方法
+        configuration.addAllowedHeader("*");//允许任何请求头
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 

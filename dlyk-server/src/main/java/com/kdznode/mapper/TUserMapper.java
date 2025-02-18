@@ -1,6 +1,9 @@
 package com.kdznode.mapper;
 
 import com.kdznode.model.TUser;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface TUserMapper {
     int deleteByPrimaryKey(Integer id);
@@ -15,5 +18,7 @@ public interface TUserMapper {
 
     int updateByPrimaryKey(TUser record);
 
-    TUser selectByLoginAct(String username);
+    TUser selectByLoginAct(@Param("username")  String username);
+
+    List<TUser> selectUsersByPage();
 }

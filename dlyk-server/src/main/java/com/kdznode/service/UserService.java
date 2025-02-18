@@ -1,5 +1,7 @@
 package com.kdznode.service;
 
+import com.github.pagehelper.PageInfo;
+import com.kdznode.model.TUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
@@ -7,4 +9,5 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  * @create 2025-01-23-10:25
  */
 public interface UserService extends UserDetailsService {
+    PageInfo<TUser> getUserPage(Integer current);
 }
