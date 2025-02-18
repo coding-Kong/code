@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from "vue-router";
 //创建一个路由对象
 let router = createRouter({
     //配置路由的历史
-    history : createWebHistory(),
+    history: createWebHistory(),
 
     //配置路由的路径和组件，是数组，可以配置多个路由
     routes :[
@@ -17,6 +17,16 @@ let router = createRouter({
         {
             path: '/dashboard',
             component: () => import('../view/DashboardView.vue'),
+            //配置子路由，子路由可以配置多个
+            children : [
+                {
+                    //子路由不能以斜杆开头
+                    path : 'user',
+                    //当访问 /dashboard/user 路由的时候，就渲染显示UserView.vue页面
+                    component : () => import('../view/UserView.vue'),
+                },
+
+            ]
         }
 ]
             //配置子路由，子路由可以配置多个

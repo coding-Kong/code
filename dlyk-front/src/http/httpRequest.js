@@ -127,12 +127,15 @@ axios.interceptors.response.use( (response) => {
     // 对响应数据做点什么
     // 提示一下token不合法的原因
     if (response.data.code > 900) { //code码大于900都是token问题
-        messageConfirm(response.data.msg + ", 是否重新去登录？").then(() => { //当点击“确定”按钮就执行该then函数
+        messageConfirm(response.data.msg + ", 是否重新去登录？")
+
+            .then(() => { //当点击“确定”按钮就执行该then函数
             //去重新登录，把浏览器的token清理一下
             clearToken();
             //跳到登录页
             window.location.href = "/";
-        }).catch(() => { //当点击“取消”按钮就执行该catch函数
+        })
+            .catch(() => { //当点击“取消”按钮就执行该catch函数
             messageTip("取消去登录", "warning");
         })
     }

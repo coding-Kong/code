@@ -14,6 +14,8 @@
           :router="true"
           style="border-right: solid 0px">
 
+<!-- 只展开一个组件   :unique-opened="true"-->
+
         <!--市场活动菜单(测试)-->
         <el-sub-menu :index="index+1" v-for="(menu, index) in permissionMenuList" :key="menu.id">
           <template #title>
@@ -25,6 +27,17 @@
             {{subMenu.name}}
           </el-menu-item>
         </el-sub-menu>
+        <el-sub-menu :index="7">
+                   <template #title>
+                     <el-icon><location/></el-icon>>
+                     <span>用户管理</span>
+                   </template>
+<!--          index 路径进行路由跳转-->
+                  <el-menu-item index="/dashboard/user">
+                    <el-icon><user-solid/></el-icon>
+                    用户列表
+                  </el-menu-item>
+        </el-sub-menu>
 
       </el-menu>
     </el-aside>
@@ -33,7 +46,7 @@
     <el-container class="rightContainer">
       <!--右侧顶部-->
       <el-header>
-        <el-icon @click="menuShow"><Fold /></el-icon>
+        <el-icon @click="menuShow" class="show"><Fold /></el-icon>
 
         <el-dropdown @command="handleCommand" style="float: right; line-height: 38px;">
           <span class="el-dropdown-link">
@@ -135,14 +148,14 @@ export default {
         }
       }).catch( (error) => { //当发生异常执行该catch函数
         console.log(error);
-      }).finally( () => { //总是会执行
+      }).finally( () => {
         // 总是会执行
       });
     },
 
     //加载登录人的信息
     loadLoginInfo() {
-      doGet("/api/login/info", {}).then(resp => {
+      doGet2("/api/login/info", {}).then(resp => {
         if (resp.data.code === 200) {
           this.loginUserName = resp.data.data.name;
           this.loginUserId = resp.data.data.id;
@@ -198,10 +211,21 @@ export default {
 .rightContainer {
   height: calc(100vh);
 }
+
+/*
+鼠标箭头变成手型
+*/
+.show{
+  cursor: pointer;
+}
 .menuTitle {
   color: white;
   height: 38px;
+  /*上下居中
+  行高和高度保持一致
+  */
   line-height: 38px;
+  /*左右居中*/
   text-align: center;
   cursor: pointer;
 }

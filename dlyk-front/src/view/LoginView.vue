@@ -56,7 +56,9 @@ export default {
         ],
         //验证登录密码字段
         loginPwd: [
-          {required: true, message: '请输入登录密码', trigger: 'blur'}
+          {required: true, message: '请输入登录密码', trigger: 'blur'},
+          {min: 6,max: 16, message: '登录密码长度为6-16位', trigger: 'blur'}
+
         ]
 
       }
@@ -68,6 +70,7 @@ export default {
   methods: {
     //登录方法
     login: function () {
+      //验证表单是否合法
       this.$refs.loginRefForm.validate((isValid) => {
         if (isValid) {
           //验证通过，调用后台接口
@@ -79,8 +82,11 @@ export default {
             //获取ajax异步请求后的结果
             console.log(response);
             if(response.data.code===200){
+
+              //封装的消息提示组件
               messageTip("登录成功", "success");
 
+              //清除token
               clearToken();
               if(this.user.rememberMe===true){
                 window.localStorage.setItem(jwtName(),response.data.data);
