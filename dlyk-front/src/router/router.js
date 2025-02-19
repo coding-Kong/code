@@ -25,6 +25,12 @@ let router = createRouter({
                     //当访问 /dashboard/user 路由的时候，就渲染显示UserView.vue页面
                     component : () => import('../view/UserView.vue'),
                 },
+                {
+                    //子路由不能以斜杆开头，这个叫动态路由，id是一个变量，值是动态的
+                    path : 'user/:id',
+                    //当访问 /dashboard/user/6 路由的时候，就渲染显示UserDetailView.vue页面
+                    component : () => import('../view/UserDetailView.vue'),
+                },
 
             ]
         }
