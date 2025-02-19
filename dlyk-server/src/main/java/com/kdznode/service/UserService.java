@@ -10,4 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  */
 public interface UserService extends UserDetailsService {
     PageInfo<TUser> getUserPage(Integer current);
+
+    TUser getUserById(Integer id);
 }

@@ -21,4 +21,6 @@ public interface TUserMapper {
     TUser selectByLoginAct(@Param("username")  String username);
 
     List<TUser> selectUsersByPage();
+
+    TUser selectUserDetailByID(Integer id);
 }

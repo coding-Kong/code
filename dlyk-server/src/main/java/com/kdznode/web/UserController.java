@@ -8,6 +8,7 @@ import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,5 +49,11 @@ public class UserController {
         }
         PageInfo<TUser> pageInfo = userService.getUserPage(current);
         return R.OK(pageInfo);
+    }
+
+    @GetMapping("api/user/{id}")
+    public R UserDetail(@PathVariable(value = "id")Integer id){
+        TUser tUser = userService.getUserById(id);
+        return R.OK(tUser);
     }
 }

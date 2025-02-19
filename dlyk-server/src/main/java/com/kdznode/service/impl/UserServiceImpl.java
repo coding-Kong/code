@@ -49,5 +49,10 @@ public class UserServiceImpl implements UserService {
         PageInfo<TUser> pageInfo = new PageInfo(list);
         return pageInfo;
     }
+
+    @Override
+    public TUser getUserById(Integer id) {
+        return tUserMapper.selectUserDetailByID(id);
+    }
 }
 
