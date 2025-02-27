@@ -2,15 +2,16 @@ package com.kdznode.web;
 
 import com.github.pagehelper.PageInfo;
 import com.kdznode.model.TUser;
+import com.kdznode.query.UserQuery;
 import com.kdznode.result.R;
 import com.kdznode.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author kdz
@@ -39,6 +40,13 @@ public class UserController {
     }
 
 
+    /**
+     * @description: 分页查询用户列表
+     * @author: kdz
+     * @date: 2025/2/25 22:47
+     * @param: [current]
+     * @return: com.kdznode.result.R
+     **/
     @GetMapping("api/users")
     public R userPage(@RequestParam(value = "current",required = false) Integer current){
 
@@ -55,5 +63,48 @@ public class UserController {
     public R UserDetail(@PathVariable(value = "id")Integer id){
         TUser tUser = userService.getUserById(id);
         return R.OK(tUser);
+    }
+
+    /**
+     * 添加用户
+     * @param userQuery
+     * @return
+     */
+    @PostMapping("api/user")
+    public R addUser(UserQuery userQuery,@RequestHeader(value = "Authorization") String token ){
+        userQuery.setToken(token);
+        int save = userService.saveUser(userQuery);
+        return save>= 1 ? R.OK() : R.FAIL();
+    }
+
+
+    /**
+     * 编辑用户
+     * @param userQuery
+     * @return
+     */
+    @PutMapping("api/user")
+    public R editUser(UserQuery userQuery,@RequestHeader(value = "Authorization") String token ){
+        userQuery.setToken(token);
+        int update = userService.updateUser(userQuery);
+        return update>= 1 ? R.OK() : R.FAIL();
+    }
+
+    /**
+     * 编辑用户
+     * @param
+     * @return
+     */
+    @DeleteMapping("api/user/{id}")
+    public R deleteUser(@PathVariable(value = "id")Integer id ){
+        int del = userService.deleteUser(id);
+        return del>= 1 ? R.OK() : R.FAIL();
+    }
+
+    @DeleteMapping("api/user/batch")
+    public R batchdeleteUser(@RequestParam(value = "ids") String ids){
+        List<String> idList = Arrays.asList(ids.split(","));
+        int batchDel = userService.batchdeleteUser(idList);
+        return batchDel>= idList.size() ? R.OK() : R.FAIL();
     }
 }

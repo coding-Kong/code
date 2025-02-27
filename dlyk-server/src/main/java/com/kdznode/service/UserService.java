@@ -2,7 +2,10 @@ package com.kdznode.service;
 
 import com.github.pagehelper.PageInfo;
 import com.kdznode.model.TUser;
+import com.kdznode.query.UserQuery;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import java.util.List;
 
 /**
  * @author kdz
@@ -12,4 +15,12 @@ public interface UserService extends UserDetailsService {
     PageInfo<TUser> getUserPage(Integer current);
 
     TUser getUserById(Integer id);
+
+    int saveUser(UserQuery userQuery);
+
+    int updateUser(UserQuery userQuery);
+
+    int deleteUser(Integer id);
+
+    int batchdeleteUser(List<String> idList);
 }

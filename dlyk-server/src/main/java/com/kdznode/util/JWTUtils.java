@@ -105,7 +105,6 @@ public class JWTUtils {
     public static List<String> parseJWTByUserRole(String jwt) {
         String userJSON = parseJWT(jwt);
         TUser user = JSONUtils.toBean(userJSON, TUser.class);
-        return null;
-        //return user.getStringRoleList();
+        return user.getRoleList();
     }
 }
