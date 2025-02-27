@@ -49,7 +49,7 @@ export function doDelete(url, params) {
 }
 
 export function doDelete2(url,params) {
-    axios({
+    return axios({
         method: 'delete',
         url: url,
         params: params,

@@ -60,7 +60,10 @@
   <select id="selectUsersByPage" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from t_user
+    from t_user tu
+    <where>
+      ${filterSQL}
+    </where>
   </select>
 
   <select id="selectUserDetailByID" parameterType="java.lang.Integer" resultMap="UserResultMap">
@@ -81,6 +84,13 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_user
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from t_user
+    where id in
+    <foreach collection="idList" item="id" open="(" close=")" separator=",">
+      #{id,jdbcType=VARCHAR}
+    </foreach>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.kdznode.model.TUser" useGeneratedKeys="true">
     insert into t_user (login_act, login_pwd, `name`, 
@@ -193,7 +203,7 @@
       <if test="loginAct != null">
         login_act = #{loginAct,jdbcType=VARCHAR},
       </if>
-      <if test="loginPwd != null">
+      <if test="loginPwd != null and loginPwd != '' ">
         login_pwd = #{loginPwd,jdbcType=VARCHAR},
       </if>
       <if test="name != null">

@@ -2,6 +2,8 @@ package com.kdznode.mapper;
 
 import com.kdznode.model.TPermission;
 
+import java.util.List;
+
 public interface TPermissionMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface TPermissionMapper {
     int updateByPrimaryKeySelective(TPermission record);
 
     int updateByPrimaryKey(TPermission record);
+
+    List<TPermission> selectByUserId(Integer userId);
 }

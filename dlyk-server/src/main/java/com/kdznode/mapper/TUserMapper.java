@@ -1,6 +1,8 @@
 package com.kdznode.mapper;
 
+import com.kdznode.commons.DataScope;
 import com.kdznode.model.TUser;
+import com.kdznode.query.BaseQuery;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -20,7 +22,11 @@ public interface TUserMapper {
 
     TUser selectByLoginAct(@Param("username")  String username);
 
-    List<TUser> selectUsersByPage();
+
+    @DataScope(tableAlias = "tu", tableField = "id")
+    List<TUser> selectUsersByPage(BaseQuery query);
 
     TUser selectUserDetailByID(Integer id);
+
+    int deleteByIds(List<String> idList);
 }

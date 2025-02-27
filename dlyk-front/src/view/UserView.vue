@@ -35,7 +35,7 @@
   </p>
 
   <!--新增用户的弹窗（对话框）-->
-  <el-dialog v-model="userDialogVisible" title="新增用户" width="55%" center>
+  <el-dialog v-model="userDialogVisible" :title="userQuery.id>0?'编辑用户':'新增用户'" width="55%" center>
 
     <el-form ref="userRefForm" :model="userQuery" label-width="110px" :rules="userRules">
       <el-form-item label="账号" prop="loginAct">
@@ -113,13 +113,13 @@
 </template>
 
 <script>
-import {doDelete, doGet, doGet2, doPost, doPut} from "../http/httpRequest";
+import {doDelete, doDelete2, doGet, doGet2, doPost, doPost2, doPut, doPut2} from "../http/httpRequest";
 import {messageConfirm, messageTip} from "../util/utils";
 
 export default {
   name: "UserView",
 
-  //注入
+  //注入父组件provide里面的东西
   inject : ['reload', 'phone', 'idArray', 'user'],
 
   data() {
@@ -174,7 +174,7 @@ export default {
         {label : '是', value : 1},
         {label : '否', value : 0}
       ],
-      //定义一个userId的数组，初始值是空
+      //定义一个userId的数组，初始值是空,批量删除使用
       userIdArray : []
     }
   },
@@ -239,7 +239,7 @@ export default {
           }
 
           if (this.userQuery.id > 0) { //编辑用户
-            doPut("/api/user", formData).then( (resp) => { //获取ajax异步请求后的结果
+            doPut2("/api/user", formData).then( (resp) => { //获取ajax异步请求后的结果
               console.log(resp);
               if (resp.data.code === 200) {
                 //编辑用户成功，提示一下
@@ -253,7 +253,7 @@ export default {
               }
             });
           } else {
-            doPost("/api/user", formData).then( (resp) => { //获取ajax异步请求后的结果
+            doPost2("/api/user", formData).then( (resp) => { //获取ajax异步请求后的结果
               console.log(resp);
               if (resp.data.code === 200) {
                 //新增用户成功，提示一下
@@ -293,7 +293,8 @@ export default {
     //删除用户
     del(id) {
       messageConfirm("您确定要删除此数据吗？").then(() => { //当点击“确定”按钮就执行该then函数
-        doDelete("/api/user/" + id, {}).then( (resp) => { //获取ajax异步请求后的结果
+
+        doDelete2("/api/user/" + id, {}).then( (resp) => { //获取ajax异步请求后的结果
           if (resp.data.code === 200) {
             //删除用户成功，提示一下
             messageTip("删除成功", "success");
