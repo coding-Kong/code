@@ -27,6 +27,17 @@
             {{subMenu.name}}
           </el-menu-item>
         </el-sub-menu>
+        <el-sub-menu :index="1">
+          <template #title>
+            <el-icon><OfficeBuilding/></el-icon>>
+            <span>市场活动</span>
+          </template>
+          <!--          index 路径进行路由跳转-->
+          <el-menu-item index="/dashboard/activity">
+            <el-icon><user-solid/></el-icon>
+            市场活动
+          </el-menu-item>
+        </el-sub-menu>
         <el-sub-menu :index="7">
                    <template #title>
                      <el-icon><location/></el-icon>>
@@ -80,10 +91,11 @@
 <script>
 import {doGet, doGet2} from "../http/httpRequest";
 import {clearToken} from "../util/utils";
+import {OfficeBuilding} from "@element-plus/icons-vue";
 
 export default {
   name: "DashboardView",
-
+  components: {OfficeBuilding},
   //所有页面上使用的变量都需要再data()中定义
   data() {
     return {

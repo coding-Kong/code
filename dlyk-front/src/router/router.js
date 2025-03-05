@@ -31,6 +31,17 @@ let router = createRouter({
                     //当访问 /dashboard/user/6 路由的时候，就渲染显示UserDetailView.vue页面
                     component : () => import('../view/UserDetailView.vue'),
                 },
+                {              //子路由不能以斜杆开头
+                    path: 'activity',
+                    //当访问 /dashboard/activity/add 路由的时候，就渲染显示ActivityItemView.vue页面
+                    component: () => import('../view/ActivityView.vue'),
+                },
+                {
+                    //子路由不能以斜杆开头
+                    path: 'activity/add',
+                    //当访问 /dashboard/activity/add 路由的时候，就渲染显示ActivityItemView.vue页面
+                    component: () => import('../view/ActivityItemView.vue'),
+                },
 
             ]
         }
