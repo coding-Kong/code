@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kdznode.constant.Constants;
+import com.kdznode.manager.RedisManager;
 import com.kdznode.mapper.TPermissionMapper;
 import com.kdznode.mapper.TRoleMapper;
 import com.kdznode.mapper.TUserMapper;
@@ -13,6 +14,7 @@ import com.kdznode.model.TUser;
 import com.kdznode.query.BaseQuery;
 import com.kdznode.query.UserQuery;
 import com.kdznode.service.UserService;
+import com.kdznode.util.CacheUtils;
 import com.kdznode.util.JWTUtils;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
@@ -46,6 +48,8 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private TPermissionMapper tPermissionMapper;
+    @Resource
+    private RedisManager redisManager;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -132,6 +136,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public int batchdeleteUser(List<String> idList) {
         return tUserMapper.deleteByIds(idList);
+    }
+
+    @Override
+    public List<TUser> getOwners() {
+        //加入缓冲 先从redis里面查，查不到从数据库里面查，然后再把查到的数据放入redis里面
+
+        List<TUser> tUserList = (List<TUser>) CacheUtils.getCacheData(
+                () -> (List<TUser>)redisManager.getValue(Constants.REDIS_OWNER_KEY),
+                () -> tUserMapper.selectUserOwner(),
+                (t) -> redisManager.setValue(Constants.REDIS_OWNER_KEY, t)
+        );
+        return tUserList;
     }
 }
 

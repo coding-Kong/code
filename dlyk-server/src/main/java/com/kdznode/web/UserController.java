@@ -77,6 +77,11 @@ public class UserController {
         return save>= 1 ? R.OK() : R.FAIL();
     }
 
+    @GetMapping("api/user/owner")
+    public R owner(){
+        List<TUser> owners = userService.getOwners();
+        return R.OK(owners);
+    }
 
     /**
      * 编辑用户

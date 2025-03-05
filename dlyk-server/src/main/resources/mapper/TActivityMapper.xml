@@ -14,6 +14,24 @@
     <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
     <result column="edit_by" jdbcType="INTEGER" property="editBy" />
   </resultMap>
+  <resultMap id="ActivityResultMap" type="com.kdznode.model.TActivity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="owner_id" jdbcType="INTEGER" property="ownerId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="cost" jdbcType="DECIMAL" property="cost" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
+    <result column="edit_by" jdbcType="INTEGER" property="editBy" />
+<!--    一对一关联查询-->
+    <association property="ownerDO" javaType="com.kdznode.model.TUser">
+      <id column="ownerId" jdbcType="INTEGER" property="id" />
+      <result column="ownerName" jdbcType="VARCHAR" property="name" />
+    </association>
+  </resultMap>
   <sql id="Base_Column_List">
     id, owner_id, `name`, start_time, end_time, cost, description, create_time, create_by, 
     edit_time, edit_by
@@ -23,6 +41,33 @@
     <include refid="Base_Column_List" />
     from t_activity
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByActivityPage"  resultMap="ActivityResultMap">
+    select
+    ta.*,
+    tu.id ownerId,tu.name ownerName
+    from t_activity ta left join t_user tu on ta.owner_id = tu.id
+    <where>
+    <if test="ownerId !=null">
+      and ta.owner_id= #{ownerId}
+    </if>
+      <if test="name !=null">
+        and ta.name like concat('%',#{name},'%')
+      </if>
+      <if test="startTime !=null">
+        and ta.start_time >= #{startTime}
+      </if>
+      <if test="endTime !=null">
+        <![CDATA[  and ta.end_time <= #{endTime}   ]]>
+      </if>
+      <if test="cost !=null">
+        and ta.cost>= #{cost}
+      </if>
+      <if test="createTime !=null">
+        and ta.create_time= #{createTime}
+      </if>
+      ${filterSQL}
+    </where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_activity
