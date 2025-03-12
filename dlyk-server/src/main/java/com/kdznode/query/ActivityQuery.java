@@ -18,6 +18,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class ActivityQuery extends BaseQuery{
 
+   private Integer  id ;
+
    private Integer  ownerId ;
    private String  name ;
    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

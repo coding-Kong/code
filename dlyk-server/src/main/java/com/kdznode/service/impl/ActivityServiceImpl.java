@@ -46,4 +46,19 @@ public class ActivityServiceImpl implements ActivityService {
         tActivity.setCreateBy(userId);
         return  tActivityMapper.insertSelective(tActivity);
     }
+
+    @Override
+    public int updateACtivity(ActivityQuery activityQuery) {
+        TActivity tActivity = new TActivity();
+        BeanUtils.copyProperties(activityQuery,tActivity);
+        tActivity.setEditTime(new Date());
+        Integer userId = JWTUtils.parseJWTByUserId(activityQuery.getToken());
+        tActivity.setEditBy(userId);
+        return tActivityMapper.updateByPrimaryKeySelective(tActivity);
+    }
+
+    @Override
+    public TActivity getActivityById(Integer id) {
+        return tActivityMapper.selectDetailByPrimaryKey(id);
+    }
 }

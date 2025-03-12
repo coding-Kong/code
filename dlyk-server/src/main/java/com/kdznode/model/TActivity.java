@@ -68,5 +68,7 @@ public class TActivity implements Serializable {
 
     //一对一关联User
     private TUser ownerDO;
+    private TUser createByDO;
+    private TUser editByDO;
     private static final long serialVersionUID = 1L;
 }

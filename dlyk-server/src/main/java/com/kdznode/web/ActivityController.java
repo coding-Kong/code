@@ -49,4 +49,16 @@ public class ActivityController {
         int save = activityService.saveACtivity(activityQuery);
         return save>= 1 ? R.OK() : R.FAIL();
     }
+    @GetMapping("/api/activity/{id}")
+    public R loadActivity(@PathVariable(value = "id")Integer id){
+        TActivity activity = activityService.getActivityById(id);
+        return R.OK(activity);
+    }
+
+    @PutMapping("/api/activity")
+    public R editActivity(ActivityQuery activityQuery,@RequestHeader(value = "Authorization") String token){
+        activityQuery.setToken(token);
+        int update = activityService.updateACtivity(activityQuery);
+        return update>= 1 ? R.OK() : R.FAIL();
+    }
 }
