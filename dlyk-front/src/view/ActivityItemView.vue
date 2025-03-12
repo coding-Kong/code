@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="activityRefForm" :model="activityQuery" :title="activityQuery.id>0?'编辑活动':'新增活动'" label-width="120px" :rules="activityRules">
+  <el-form ref="activityRefForm" :model="activityQuery"  label-width="120px" :rules="activityRules">
     <el-form-item label="负责人" prop="ownerId">
       <el-select
           v-model="activityQuery.ownerId"
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import {doGet, doPost, doPost2, doPut} from "../http/httpRequest";
+import {doGet, doGet2, doPost, doPost2, doPut, doPut2} from "../http/httpRequest";
 import {goBack, messageTip} from "../util/utils";
 
 export default {
@@ -125,14 +125,13 @@ export default {
           //验证通过了，可以提交
           let formData = new FormData();
           for (let field in this.activityQuery) {
-            /*if (this.activityQuery[field]) {
+            if (this.activityQuery[field]) {
               formData.append(field, this.activityQuery[field]);
-            }*/
-            formData.append(field, this.activityQuery[field]);
+            }
           }
           //判断是新增还是编辑
           if (this.activityQuery.id > 0) {//编辑
-            doPut("/api/activity", formData).then( (resp) => { //获取ajax异步请求后的结果
+            doPut2("/api/activity", formData).then( (resp) => { //获取ajax异步请求后的结果
               console.log(resp);
               if (resp.data.code === 200) {
                 //编辑成功，提示一下
@@ -167,7 +166,7 @@ export default {
       let id = this.$route.params.id;
       if (id) { //id存在，id不是空，id不是undefined
         //说明是编辑，需要查询一下数据
-        doGet("/api/activity/" + id, {}).then(resp => {
+        doGet2("/api/activity/" + id, {}).then(resp => {
           if (resp.data.code === 200) {
             this.activityQuery = resp.data.data;
           }

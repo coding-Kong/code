@@ -42,54 +42,24 @@ let router = createRouter({
                     //当访问 /dashboard/activity/add 路由的时候，就渲染显示ActivityItemView.vue页面
                     component: () => import('../view/ActivityItemView.vue'),
                 },
+                {
+                    //子路由不能以斜杆开头，这个叫动态路由，id是一个变量，值是动态的
+                    path: 'activity/edit/:id',
+                    //当访问 /dashboard/activity/edit/5 路由的时候，就渲染显示ActivityItemView.vue页面
+                    component: () => import('../view/ActivityItemView.vue'),
+                },
+                {
+                    //子路由不能以斜杆开头，这个叫动态路由，id是一个变量，值是动态的
+                    path: 'activity/:id',
+                    //当访问 /dashboard/activity/edit/6 路由的时候，就渲染显示ActivityItemView.vue页面
+                    component: () => import('../view/ActivityDetailView.vue'),
+                },
 
             ]
         }
 ]
-            //配置子路由，子路由可以配置多个
-    //         children : [
-    //             {
-    //                 //子路由不能以斜杆开头
-    //                 path : '',
-    //                 //当访问 /dashboard/ 路由的时候，就渲染显示StatisticView.vue页面
-    //                 component : () => import('../view/StatisticView.vue'),
-    //             },
-    //             {
-    //                 //子路由不能以斜杆开头
-    //                 path : 'user',
-    //                 //当访问 /dashboard/user 路由的时候，就渲染显示UserView.vue页面
-    //                 component : () => import('../view/UserView.vue'),
-    //             },
-    //             {
-    //                 //子路由不能以斜杆开头，这个叫动态路由，id是一个变量，值是动态的
-    //                 path : 'user/:id',
-    //                 //当访问 /dashboard/user/6 路由的时候，就渲染显示UserDetailView.vue页面
-    //                 component : () => import('../view/UserDetailView.vue'),
-    //             },
-    //             {
-    //                 //子路由不能以斜杆开头
-    //                 path : 'activity',
-    //                 //当访问 /dashboard/activity 路由的时候，就渲染显示ActivityView.vue页面
-    //                 component : () => import('../view/ActivityView.vue'),
-    //             },
-    //             {
-    //                 //子路由不能以斜杆开头，这个叫动态路由，id是一个变量，值是动态的
-    //                 path : 'activity/:id',
-    //                 //当访问 /dashboard/activity/6 路由的时候，就渲染显示ActivityDetailView.vue页面
-    //                 component : () => import('../view/ActivityDetailView.vue'),
-    //             },
-    //             {
-    //                 //子路由不能以斜杆开头
-    //                 path : 'activity/add',
-    //                 //当访问 /dashboard/activity/add 路由的时候，就渲染显示ActivityItemView.vue页面
-    //                 component : () => import('../view/ActivityItemView.vue'),
-    //             },
-    //             {
-    //                 //子路由不能以斜杆开头，这个叫动态路由，id是一个变量，值是动态的
-    //                 path : 'activity/edit/:id',
-    //                 //当访问 /dashboard/activity/edit/5 路由的时候，就渲染显示ActivityItemView.vue页面
-    //                 component : () => import('../view/ActivityItemView.vue'),
-    //             },
+
+
     //             {
     //                 //子路由不能以斜杆开头
     //                 path : 'clue',
